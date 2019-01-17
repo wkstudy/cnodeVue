@@ -1,11 +1,11 @@
 <template>
   <nav>
-    <router-link to='/CnAll'>全部</router-link>
-    <router-link to='/CnEssence'>精华</router-link>
-    <router-link to='/CnShare'>分享</router-link>
-    <router-link to='/CnQA'>问答</router-link>
-    <router-link to='/CnRecruit'>招聘</router-link>
-    <router-link to='/CnTest'>客户端测试</router-link>
+    <router-link to='/CnInfo'>全部</router-link>
+    <router-link :to = "{path: '', query: {tab: 'good'}}">精华</router-link>
+    <router-link :to = "{path: '', query: {tab: 'share'}}">分享</router-link>
+    <router-link :to = "{path: '', query: {tab: 'ask'}}">问答</router-link>
+    <router-link :to = "{path: '', query: {tab: 'job'}}">招聘</router-link>
+    <router-link :to = "{path: '', query: {tab: 'dev'}}">客户端测试</router-link>
   </nav>
 </template>
 <script>

@@ -14,7 +14,7 @@ a {
 }
 
 /* 公用类 */
-.clr {
+.clr:after {
   content: '';
   display: block;
   clear: both;
