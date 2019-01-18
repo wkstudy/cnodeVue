@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <router-link to='/CnInfo'>全部</router-link>
+    <router-link to='/'>全部</router-link>
     <router-link :to = "{path: '', query: {tab: 'good'}}">精华</router-link>
     <router-link :to = "{path: '', query: {tab: 'share'}}">分享</router-link>
     <router-link :to = "{path: '', query: {tab: 'ask'}}">问答</router-link>
@@ -23,4 +23,10 @@ nav
   padding-left 1.6rem
 nav a + a 
   margin-left 2rem
+nav a
+  color #80bd01
+  padding .4rem .5rem
+.router-link-exact-active
+  color #fff
+  background-color #80bd01
 </style>

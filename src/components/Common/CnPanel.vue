@@ -16,5 +16,5 @@ export default {
 <style lang='stylus' scoped>
 #cnt
   float left
-  width 60%
+  width 75%
 </style>

@@ -1,11 +1,17 @@
 <template>
   <ul>
     <li v-for='tl in titleList'>
-      <img :src='tl.author.avatar_url' :alt="tl.author.loginname">
-      <span>{{tl.reply_count}} / {{tl.visit_count}}</span>
-      <span>{{tl.tab|cancelCategory(tl.top)}}</span>
-      <span>{{tl.title|cancelTitle}}</span>
-      <span>{{cancelTime(tl.last_reply_at)}}</span>
+      <img 
+        :src='tl.author.avatar_url' 
+        :alt="tl.author.loginname"
+      >
+      <span class="wrapper-reply">{{tl.reply_count}} / {{tl.visit_count}}</span>
+      <span  
+        :class="['wrapper-category', category=='all' && (!tl.top && !tl.good) ? 'wrapper-category-ordinary' : '']" 
+        v-show="category == 'all'|| (category == 'share' && (tl.top || tl.good)) || category == 'good'">{{tl.tab|cancelCategory(tl.top,tl.good)}}</span>
+      <span 
+        :class="category == 'all'|| (category == 'share' && (tl.top || tl.good)) ||category == 'good' ? 'wrapper-title-r' : 'wrapper-title-l'">{{tl.title|cancelTitle}}</span>
+      <span class='wrapper-time'>{{cancelTime(tl.last_reply_at)}}</span>
     </li>
   </ul>
 </template>
@@ -16,6 +22,10 @@
       titleList: {
         type: Array,
         required: true
+      },
+      category: {
+        type: String,
+        required: true
       }
     },
     data () {
@@ -24,10 +34,18 @@
       }
     },
     filters: {
-      cancelCategory (tab, top) {
+      cancelCategory (tab, top, good) {
+
+        /*
+          * top 为true 代表 置顶
+          * good 为true 代表 精华（虽然api中tab有为good的参数，但实际中没看到）
+          * 其他种类由tab的种类判断
+        */
         var value = '';
         if (top) {
           return '置顶';
+        } else if (good) {
+          return '精华';
         } else {
           switch (tab) {
             case 'share':
@@ -39,11 +57,8 @@
             case 'job':
               value = '招聘';
               break;
-            case 'good':
-              value = '精华';
-              break;
             default:
-              value = '??';
+              console.log(value);
               break;
           }
 
@@ -51,7 +66,9 @@
         }
       },
       cancelTitle (value) {
-        return value.length > 40 ? value.substring(0, 40) + '...' : value
+
+        // 字数 >60 添加省略号
+        return value.length > 60 ? value.substring(0, 60) + '...' : value
       }
     },
     methods: {
@@ -83,7 +100,41 @@
   }
 </script>
 <style lang='stylus'scoped>
+li
+  position relative
+  padding 1rem
+  font-size 1.4rem
+  background-color #fff
+  color #333
+  line-height 2.5rem
+  height 2.5rem
+  border-top 1px solid #f0f0f0
+li:hover
+  background-color #f5f5f5
+li:nth-child(1)
+  border none
 img
   width 3rem
   height 3rem
+  position absolute
+li span
+  position absolute
+  top 22%
+.wrapper-reply
+  left 6rem
+.wrapper-category
+  left 14rem
+  background-color #80bd01
+  color #fff
+  font-size 1.2rem
+  padding .1rem .4rem
+.wrapper-category-ordinary
+  background-color #e5e5e5
+  color #999
+.wrapper-title-r
+  left 18rem
+.wrapper-title-l
+  left 14rem
+.wrapper-time
+  right 2%
 </style>

@@ -11,5 +11,5 @@
 <style lang='stylus' scoped>
 #sidebar
   float right
-  width 30%
+  width 25%
 </style>
