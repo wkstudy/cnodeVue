@@ -26,6 +26,8 @@ nav a + a
 nav a
   color #80bd01
   padding .4rem .5rem
+nav a:hover
+  color #005580
 .router-link-exact-active
   color #fff
   background-color #80bd01

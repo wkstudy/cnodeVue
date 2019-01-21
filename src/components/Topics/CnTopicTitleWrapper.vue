@@ -5,12 +5,16 @@
         :src='tl.author.avatar_url' 
         :alt="tl.author.loginname"
       >
-      <span class="wrapper-reply">{{tl.reply_count}} / {{tl.visit_count}}</span>
+      <span class="wrapper-reply">{{tl.reply_count}}</span>
+      <span class="wrapper-all"> &nbsp;/&nbsp;{{tl.visit_count}}</span>
       <span  
         :class="['wrapper-category', category=='all' && (!tl.top && !tl.good) ? 'wrapper-category-ordinary' : '']" 
         v-show="category == 'all'|| (category == 'share' && (tl.top || tl.good)) || category == 'good'">{{tl.tab|cancelCategory(tl.top,tl.good)}}</span>
-      <span 
-        :class="category == 'all'|| (category == 'share' && (tl.top || tl.good)) ||category == 'good' ? 'wrapper-title-r' : 'wrapper-title-l'">{{tl.title|cancelTitle}}</span>
+      <a 
+        :class="category == 'all'|| (category == 'share' && (tl.top || tl.good)) ||category == 'good' ? 'wrapper-title-r' : 'wrapper-title-l'"
+        @click='changePage(tl.id)'
+        href="javascript:void(0);" 
+      >{{tl.title|cancelTitle}}</a>
       <span class='wrapper-time'>{{cancelTime(tl.last_reply_at)}}</span>
     </li>
   </ul>
@@ -87,7 +91,7 @@
         if (y > 0) {
           return y + '年前';
         } else if (m > 0) {
-          return m + '月前';
+          return m + '个月前';
         } else if (d > 0) {
           return d + '天前';
         } else if (h > 0) {
@@ -95,11 +99,21 @@
         } else {
           return min + '分钟前';
         }
+      },
+      changePage (userId) {
+        this.$router.push({
+          path: '/topic',
+          query: {
+            id: userId
+          }
+        })
       }
     }
   }
 </script>
 <style lang='stylus'scoped>
+ul
+  padding-left 0
 li
   position relative
   padding 1rem
@@ -117,11 +131,21 @@ img
   width 3rem
   height 3rem
   position absolute
-li span
+li span,
+li a
   position absolute
   top 22%
+li a
+  color #333
+li a:visited
+  color #888
+li a:hover
+  text-decoration underline
 .wrapper-reply
+  color: #9e78c0
   left 6rem
+.wrapper-all
+  left 8rem
 .wrapper-category
   left 14rem
   background-color #80bd01

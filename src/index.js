@@ -1,5 +1,6 @@
 import './assets/css/common/normalize.css';
 import './assets/css/common/animate.css';
+import './assets/font/iconfont.css';
 import './assets/css/common/base.css';
 import "babel-polyfill";
 
@@ -10,6 +11,7 @@ import router from './router/router';
 import App from './app.vue';
 
 Vue.prototype.$axios = axios;
+Vue.prototype.bus = new Vue(); // 非父子组件间传值
 
 new Vue({
   el: '#app',
