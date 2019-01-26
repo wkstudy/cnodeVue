@@ -1,16 +1,16 @@
 <template>
   <div id="sidebar">
-    <div v-if='user == null'>
+    <div v-if='userinfo == null'>
       <span>please login</span>
     </div>
     <div v-else>
-      <cn-user-info :userinfo='user'></cn-user-info>
-      <div class="topic" v-show="user.loginname == 'wkstudy'">
+      <cn-user-info :userinfo='userinfo'></cn-user-info>
+      <div class="topic" v-show="userinfo.loginname == 'wkstudy'">
         <span>发布话题</span>
       </div>
       <cn-other-topics 
-        :otherTopics='user.recent_topics'
-        v-show="user.loginname != 'wkstudy'"
+        :otherTopics='userinfo.recent_topics'
+        v-show="userinfo.loginname != 'wkstudy'"
       ></cn-other-topics>
     </div>
     <div class="qr-code">
@@ -29,18 +29,32 @@ export default {
   name: 'CnSideBar',
   data () {
     return {
-      user: {}
+      userinfo: null
     }
   },
   components: {
     CnUserInfo,
     CnOtherTopics
   },
-  mounted () {
-    var _this = this;
-    _this.bus.$on('userName', function (name) {
-      _this.getUser('/' + name);
-    })
+  created () {
+    var _this = this,
+        path = _this.$route.path,
+        user = _this.$route.query.user;
+
+      if (path == '/') {
+
+        // 首页
+        if (user) {
+          _this.getUser('/' + user);
+        }
+      } else if (path == '/topic') {
+
+        // 具体话题页 
+        _this.bus.$on('userName', function (name) {
+          _this.getUser('/' + name);
+        });
+      }
+      
   },
   methods: {
     getUser (username) {
@@ -48,23 +62,11 @@ export default {
       _this.$axios.get('/api/v1/user' + username)
         .then(function (response) {
           if (response.data.success) {
-           _this.user = response.data.data;
+           _this.userinfo = response.data.data;
           }
         })
         .catch(function (error) {
           console.log(error);
-        })
-    },
-    getAccessToken () {
-      var _this = this;
-      _this.$axios.post('/api/v1/accesstoken', {
-        accesstoken: '5540feb8-1535-4028-9d17-4c88ec5d6cca'
-      })
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
         })
     }
   }

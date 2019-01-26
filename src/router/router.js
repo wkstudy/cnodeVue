@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import CnTopics from '../components/Topics/CnTopics.vue';
 import CnTopicDetail from '../components/TopicDetail/CnTopicDetail.vue';
+import CnLogin from '../components/Login/CnLogin.vue';
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,11 @@ export default new VueRouter({
       path: '/topic',
       name: 'CnTopicDetail',
       component: CnTopicDetail
+    },
+    {
+      path: '/login',
+      name: 'CnLogin',
+      component: CnLogin
     }
   ]
 })

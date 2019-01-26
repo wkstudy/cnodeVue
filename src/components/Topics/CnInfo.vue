@@ -52,9 +52,6 @@ export default {
         .then(function (response) {
           if (response.data.success) {
             _this.title = response.data.data;
-
-            // 获取用户名，用于传到 sidebar 中获取用户信息(首页默认显示自己的信息)
-            _this.bus.$emit('userName', 'wkstudy');
           }
         })
         .catch(function (error) {

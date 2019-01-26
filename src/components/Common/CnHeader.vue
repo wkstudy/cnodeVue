@@ -7,23 +7,65 @@
     <nav>
       <li v-for = "title in titles"
       >{{title}}</li>
+      <li @click='loginHandle'>{{loginOrNot}}</li>
     </nav>
   </header>
 </template>
 <script>
-  export default {
-    name: 'CnHeader',
-    data () {
-      return {
-        titles:['首页', '新手入门', 'API', '关于', '注册', '登录']
+import CookieUtil from '../../assets/js/cookie.js';
+export default {
+  name: 'CnHeader',
+  data () {
+    return {
+      titles:['首页', '新手入门', 'API', '关于', '注册'],
+      status: false,
+    }
+  },
+  created () {
+    if (CookieUtil.get("loginname")) {
+      this.status = true;
+    } else {
+      this.status = false;
+    }
+  },
+  computed: {
+    loginOrNot () {
+      if (this.status) {
+        return '退出';
+      } else {
+        return '登录';
       }
+    }
+  },
+  watch: {
+    $route (to, from) {
+      if (to.path == '/') {
+        if (CookieUtil.get("loginname")) {
+          this.status = true;
+        } else {
+          this.status = false;
+        }
+      }
+    }
+  },
+  methods: {
+    handleIcon () {
+      this.$router.push({path: '/'})
     },
-    methods: {
-      handleIcon () {
-        this.$router.push({path: '/'})
+    loginHandle () {
+      var _this = this;
+
+      if (!_this.status) {
+        _this.$router.push({path: '/login'});
+      } else {
+
+        // 如果要退出，则清除cookie
+        CookieUtil.unset("loginname", '/', '192.168.0.127');
+        _this.status = !_this.status;
       }
     }
   }
+}
 </script>
 <style lang = 'stylus' scoped>
 header
