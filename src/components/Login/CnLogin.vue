@@ -43,8 +43,10 @@ export default {
         .then(function (response) {
           if (response.data.success) {
             
-            //  存cookie
+            //  存cookie、accesstoken
             _this.stroageInfo('loginname', response.data.loginname);
+            _this.stroageInfo('accesstoken', ak);
+
 
             //  如果存cookie成功，则跳转页面
             if (CookieUtil.get('loginname')) {
@@ -61,7 +63,9 @@ export default {
       var exp = new Date();
 
       exp.setTime(exp.getTime() + 30 * 24 * 60 * 60 * 1000);  // 30 天
-      CookieUtil.set(name, value, exp, '/', '192.168.0.127');
+      // CookieUtil.set(name, value, exp, '/', '192.168.0.127');
+      CookieUtil.set(name, value, exp, '/', 'localhost');
+
     }
   }
 }

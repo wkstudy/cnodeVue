@@ -25,6 +25,8 @@
 <script>
 import CnUserInfo from './CnUserInfo.vue';
 import CnOtherTopics from './CnOtherTopics.vue';
+import CookieUtil from '../../assets/js/cookie.js';
+
 export default {
   name: 'CnSideBar',
   data () {
@@ -38,14 +40,13 @@ export default {
   },
   created () {
     var _this = this,
-        path = _this.$route.path,
-        user = _this.$route.query.user;
+        path = _this.$route.path;
 
       if (path == '/') {
 
         // 首页
-        if (user) {
-          _this.getUser('/' + user);
+        if (CookieUtil.get("loginname")) { 
+          _this.getUser('/' + CookieUtil.get('loginname'));
         }
       } else if (path == '/topic') {
 

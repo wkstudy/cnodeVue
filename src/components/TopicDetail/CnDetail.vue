@@ -28,7 +28,7 @@
         </ul>
         <span 
           :class="['clt', collect ? 'collected' : 'not-collect']"
-          @click = 'cancelCollect'
+          @click = 'cancelCollect(collect)'
         >{{collectComputed}}</span>
       </header>
       <div id="detail-cnt" v-html='detail.content'>
@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+import CookieUtil from '../../assets/js/cookie.js';
 export default {
   name: 'CnDetail',
   props: {
@@ -49,6 +50,13 @@ export default {
     return {
       nowTime: new Date(),
       collect: false
+    }
+  },
+  watch: {
+    detail () {
+      if (this.detail) {
+        this.collect = this.detail.is_collect
+      }
     }
   },
   computed: {
@@ -88,9 +96,6 @@ export default {
       }
     }
   },
-  created () {
-    this.collect = this.detail.is_collect;
-  },
   methods: {
     dValue (old, now) {
       var dateDiff  = now.getTime() - old.getTime(),
@@ -116,8 +121,41 @@ export default {
       old = new Date(old);
       return this.dValue(old, now)
     },
-    cancelCollect () {
-      this.collect = !this.collect;
+    getValFromCookie (key) {
+      if (CookieUtil.get(key)) {
+        return CookieUtil.get(key);
+      } else {
+        
+        //  如果没有登录的时候 需要跳转登录页面
+        this.$router.push({path: '/login'});
+      }
+    },
+    cancelCollect (collect) {
+      var _this = this,
+          url = '',
+          id = _this.$route.query.id, 
+          akn = this.getValFromCookie('accesstoken');
+
+      if (_this.collect) {
+        url = '/api/v1/topic_collect/de_collect';
+      } else {
+        url = '/api/v1/topic_collect/collect';
+      }
+
+      //  发送相关请求
+      _this.$axios.post(url, {
+          topic_id: id,
+          accesstoken: akn
+        })
+        .then(function (response) {
+          if (response.data.success) {
+            _this.collect = !_this.collect;
+          }
+        })
+        .catch(function (error) {
+          console.log(eror)
+        })
+      
     }
   }
 }

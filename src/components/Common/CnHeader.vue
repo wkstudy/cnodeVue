@@ -60,8 +60,14 @@ export default {
       } else {
 
         // 如果要退出，则清除cookie
-        CookieUtil.unset("loginname", '/', '192.168.0.127');
+        // CookieUtil.unset("loginname", '/', '192.168.0.127');
+        CookieUtil.unset("loginname", '/', 'localhost');
+        CookieUtil.unset("accesstoken", '/', 'localhost');
+
         _this.status = !_this.status;
+
+        // 页面刷新 （点退出后，使得 sidebar组件中重新判断 cookie 值）
+        _this.$router.go(0);
       }
     }
   }
