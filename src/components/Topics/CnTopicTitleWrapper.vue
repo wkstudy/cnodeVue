@@ -4,6 +4,7 @@
       <img 
         :src='tl.author.avatar_url' 
         :alt="tl.author.loginname"
+        @click='pageToUser(tl.author.loginname)'
       >
       <span class="wrapper-reply">{{tl.reply_count}}</span>
       <span class="wrapper-all"> &nbsp;/&nbsp;{{tl.visit_count}}</span>
@@ -107,6 +108,14 @@ export default {
           id: userId
         }
       })
+    },
+    pageToUser (name) {
+      this.$router.push({
+        path: '/user',
+        query: {
+          loginname: name
+        }
+      });
     }
   }
 }
@@ -128,6 +137,7 @@ li:hover
 li:nth-child(1)
   border none
 img
+  cursor pointer
   width 3rem
   height 3rem
   position absolute

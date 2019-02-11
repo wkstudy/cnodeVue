@@ -4,7 +4,8 @@
     <div class="user">
       <img 
         :src="userinfo.avatar_url" 
-        :alt="userinfo.loginname">
+        :alt="userinfo.loginname"
+        @click="pageToUser(userinfo.loginname)">
       <span>{{userinfo.loginname}}</span>
     </div>
     <div class="score">积分： {{userinfo.score}}</div>
@@ -13,7 +14,7 @@
 </template>
 <script>
 export default {
-  name: 'CnUserInfo',
+  name: 'CnUserBasicInfo',
   props: {
     userinfo: {
       type: Object
@@ -26,6 +27,16 @@ export default {
       } else {
         return '作者信息'
       }
+    }
+  },
+  methods: {
+    pageToUser (name) {
+      this.$router.push({
+        path: '/user',
+        query: {
+          loginname: name
+        }
+      });
     }
   }
 }
@@ -46,6 +57,7 @@ h2
   font-size 1.4rem
   padding 1rem
 img
+  cursor pointer
   width 4.8rem
   height 4.8rem
 span

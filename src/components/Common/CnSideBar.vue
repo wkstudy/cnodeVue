@@ -1,16 +1,16 @@
 <template>
   <div id="sidebar">
-    <div v-if='userinfo == null'>
+    <!-- <div v-if='userinfo == null'>
       <span>please login</span>
-    </div>
-    <div v-else>
-      <cn-user-info :userinfo='userinfo'></cn-user-info>
-      <div class="topic" v-show="userinfo.loginname == 'wkstudy'">
+    </div> -->
+    <div>
+      <cn-user-basic-info :userinfo='userinfo'></cn-user-basic-info>
+      <div class="topic" v-show="userinfo != null && userinfo.loginname == 'wkstudy'">
         <span>发布话题</span>
       </div>
       <cn-other-topics 
         :otherTopics='userinfo.recent_topics'
-        v-show="userinfo.loginname != 'wkstudy'"
+        v-show="userinfo != null && userinfo.loginname != 'wkstudy'"
       ></cn-other-topics>
     </div>
     <div class="qr-code">
@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import CnUserInfo from './CnUserInfo.vue';
+import CnUserBasicInfo from './CnUserBasicInfo.vue';
 import CnOtherTopics from './CnOtherTopics.vue';
 import CookieUtil from '../../assets/js/cookie.js';
 
@@ -33,22 +33,22 @@ export default {
     return {
       userinfo: null
     }
-  },
+  }, 
   components: {
-    CnUserInfo,
+    CnUserBasicInfo,
     CnOtherTopics
   },
   created () {
     var _this = this,
         path = _this.$route.path;
-
+     
       if (path == '/') {
 
         // 首页
         if (CookieUtil.get("loginname")) { 
           _this.getUser('/' + CookieUtil.get('loginname'));
         }
-      } else if (path == '/topic') {
+      } else {
 
         // 具体话题页 
         _this.bus.$on('userName', function (name) {

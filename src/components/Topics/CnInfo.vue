@@ -6,7 +6,7 @@
 </template>
 <script>
 import CnTopicTitleWrapper from './CnTopicTitleWrapper.vue';
-import CnPage from './CnPage.vue';
+import CnPage from '../Common/CnPage.vue';
 export default {
   name: 'CnInfo',
   data () {

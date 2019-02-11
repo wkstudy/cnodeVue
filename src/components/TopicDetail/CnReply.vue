@@ -4,8 +4,10 @@
     <ul>
       <li v-for='(reply, index) in detail.replies'>
         <div class="reply-title clr">
-          <a href="#">
-            <img :src='reply.author.avatar_url' :alt="reply.author.loginname">
+          <a href="javascript:void(0)">
+            <img :src='reply.author.avatar_url' 
+                  :alt="reply.author.loginname"
+                  @click='pageToUser(reply.author.loginname)'>
           </a>
           <section class="user-info">
             <span>{{reply.author.loginname}}</span>
@@ -13,10 +15,10 @@
             <span>{{cancelTime(reply.create_at)}}</span>
           </section>
           <section class="user-common">
-            <span v-if='reply.ups.length == 0' class="iconfont icon-dianzan zero"></span>
-            <span v-else 
+            <span
               class="iconfont icon-dianzan" 
-              :class="reply.is_uped ? 'dianzan-y' : ''"
+              :class="[reply.ups.length == 0 ? 'zero':'',reply.is_uped ? 'dianzan-y' : '']"
+              @click='uped(reply.id,index)'
             >{{reply.ups.length}}</span>
             <span class="iconfont icon-icon_reply"></span>
           </section>
@@ -27,19 +29,20 @@
   </section>
 </template>
 <script>
-  export default {
-    name: 'CnReply',
-    props: {
-      detail: {
-        type: Object
-      }
-    },
-    data () {
-      return {
-        nowTime: new Date()
-      }
-    },
-    methods: {
+import CookieUtil from '../../assets/js/cookie.js';
+export default {
+  name: 'CnReply',
+  props: {
+    detail: {
+      type: Object
+    }
+  },
+  data () {
+    return {
+      nowTime: new Date()
+    }
+  },
+  methods: {
     dValue (old, now) {
       var dateDiff  = now.getTime() - old.getTime(),
           y = Math.floor(dateDiff / (1000 * 60 * 60 * 24 * 365)), // 假定每年365天
@@ -63,9 +66,44 @@
       var now = this.nowTime;
       old = new Date(old);
       return this.dValue(old, now)
+    },
+    pageToUser (name) {
+      this.$router.push({
+        path: '/user',
+        query: {
+          loginname: name
+        }
+      });
+    },
+    uped (id, index) {
+      console.log(id)
+      var url = '/api/v1/reply/' + id + '/ups',
+          _this = this;
+
+      if (CookieUtil.get('accesstoken')) {
+        _this.$axios.post(url, {
+          accesstoken: CookieUtil.get('accesstoken')
+        })
+          .then(function (response) {
+            console.log(response)
+            if (response.data.success) {
+              if (response.data.action == 'up') {
+                console.log(1)
+                _this.detail.replies[index].is_uped = true;
+                _this.detail.replies[index].ups.length++;
+              } else {
+                _this.detail.replies[index].is_uped = false;
+                _this.detail.replies[index].ups.length--;
+              }
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
     }
   }
-  }
+}
 </script>
 <style lang='stylus' scoped>
 .replies
