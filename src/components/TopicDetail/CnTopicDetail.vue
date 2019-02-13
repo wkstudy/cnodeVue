@@ -3,7 +3,7 @@
     <div id="topic-detail">
       <cn-detail :detail='detail'></cn-detail>
       <cn-reply :detail='detail'></cn-reply>
-      <cn-add-reply></cn-add-reply>
+      <cn-add-reply :name='null' :replyid='null'></cn-add-reply>
     </div>
     <cn-side-bar></cn-side-bar>
   </div>

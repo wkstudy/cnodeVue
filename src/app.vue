@@ -1,7 +1,13 @@
 <template>
   <div>
     <cn-header></cn-header>
-    <router-view></router-view>
+    <transition
+      appear
+      appear-class='appear'
+      appear-active-class='appear-active'
+    >
+      <router-view></router-view>
+    </transition>
     <cn-footer></cn-footer>
   </div>
 </template>
@@ -18,4 +24,8 @@ export default {
 }
 </script>
 <style lang='stylus' scoped>
+.appear
+  opacity 0
+.appear-active
+  transition opacity 3s
 </style>

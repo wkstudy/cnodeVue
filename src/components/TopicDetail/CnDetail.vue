@@ -207,11 +207,14 @@ header ul li + li
 </style>
 <style lang='stylus'>
 #detail-cnt
+  word-wrap break-word
   width 70%
   padding 1rem
   font-size 1.5rem
   line-height 2rem
-#detail-cnt img 
+#detail-cnt img
+  width 100%
+  height 100%
   margin-top 1rem
 #detail-cnt ul li
   list-style-type disc

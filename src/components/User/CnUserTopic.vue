@@ -6,7 +6,7 @@
         :alt="title.author.loginname"
         @click='pageToUser(title.author.loginname)'
       >
-      <a href="javascript:void(0)">{{title.title}}</a>
+      <a href="javascript:void(0)" @click='pageToTopic(title.id)'>{{title.title}}</a>
       <span>{{cancelTime(title.last_reply_at)}}</span>
     </li>
   </ul>
@@ -63,6 +63,14 @@ export default {
         path: '/user',
         query: {
           loginname: name
+        }
+      });
+    },
+    pageToTopic (topicId) {
+      this.$router.push({
+        path: '/topic',
+        query: {
+          id: topicId
         }
       });
     }

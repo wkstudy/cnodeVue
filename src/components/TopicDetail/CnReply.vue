@@ -20,16 +20,24 @@
               :class="[reply.ups.length == 0 ? 'zero':'',reply.is_uped ? 'dianzan-y' : '']"
               @click='uped(reply.id,index)'
             >{{reply.ups.length}}</span>
-            <span class="iconfont icon-icon_reply"></span>
+            <span class="iconfont icon-icon_reply" @click='handleReply()'></span>
           </section>
         </div>
         <div class="reply-cnt" v-html='reply.content'></div>
+        <transition name='reply'>
+          <cn-add-reply 
+            v-show='show' 
+            :name=" '@' + reply.author.loginname" 
+            :replyid='reply.reply_id'
+          ></cn-add-reply>
+        </transition>
       </li>
     </ul>
   </section>
 </template>
 <script>
 import CookieUtil from '../../assets/js/cookie.js';
+import CnAddReply from './CnAddReply.vue';
 export default {
   name: 'CnReply',
   props: {
@@ -37,10 +45,17 @@ export default {
       type: Object
     }
   },
+  components: {
+    CnAddReply
+  },
   data () {
     return {
-      nowTime: new Date()
+      nowTime: new Date(),
+      show: false
     }
+  },
+  mounted () {
+    console.log(this.detail)
   },
   methods: {
     dValue (old, now) {
@@ -101,6 +116,9 @@ export default {
             console.log(error)
           })
       }
+    },
+    handleReply () {
+        this.show = !this.show;
     }
   }
 }
@@ -144,4 +162,11 @@ li:hover .zero
 .reply-cnt
   font-size 1.5rem
   padding-left 1rem  
+.reply-enter,
+.reply-leave-to
+  height 0
+  opacity 0
+.reply-enter-active,
+.reply-leave-active
+  transition all 1s
 </style>
