@@ -30,6 +30,9 @@
           :class="['clt', collect ? 'collected' : 'not-collect']"
           @click = 'cancelCollect(collect)'
         >{{collectComputed}}</span>
+        <div v-show='lname && detail.author.loginname == lname'>
+          <span class="iconfont icon-bianji" @click='handleEdit()'></span>
+        </div>
       </header>
       <div id="detail-cnt" v-html='detail.content'>
       </div>
@@ -49,7 +52,8 @@ export default {
   data () {
     return {
       nowTime: new Date(),
-      collect: false
+      collect: false,
+      lname: '' // cookie中存的loginname
     }
   },
   watch: {
@@ -94,6 +98,11 @@ export default {
       } else {
         return '收藏'
       }
+    }
+  },
+  mounted () {
+    if (CookieUtil.get('loginname')) {
+      this.lname = CookieUtil.get('loginname');
     }
   },
   methods: {
@@ -154,8 +163,16 @@ export default {
         })
         .catch(function (error) {
           console.log(eror)
-        })
-      
+        }) 
+    },
+    handleEdit () {
+      var _this = this;
+      _this.$router.push({
+        path: '/publish',
+        query: {
+          id: _this.detail.id
+        }
+      });
     }
   }
 }
@@ -220,4 +237,8 @@ header ul li + li
   list-style-type disc
 #detail-cnt a // 在长单词或URL地址内部进行换行
   word-wrap break-word
+.icon-bianji
+  cursor pointer
+  font-size 2rem
+  opacity .4
 </style>

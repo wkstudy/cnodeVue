@@ -7,6 +7,7 @@ import CnUser from '../components/User/CnUser.vue';
 import CnUserTopics from '../components/User/CnUserTopics.vue';
 import CnUserReplies from '../components/User/CnUserReplies.vue';
 import CnUserCollect from '../components/User/CnUserCollect.vue';
+import CnPublish from '../components/Publish/CnPublish.vue';
 
 Vue.use(VueRouter);
 
@@ -46,6 +47,11 @@ export default new VueRouter({
       path: '/user/collect',
       name: 'CnUserCollect',
       component: CnUserCollect
+    },
+    {
+      path: '/publish',
+      name: 'CnPublish',
+      component: CnPublish
     }
   ]
 })

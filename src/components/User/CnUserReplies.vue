@@ -45,7 +45,7 @@ export default {
         .then(function (response) {
           if (response.data.success) {
             _this.datas = response.data.data;
-            console.table(_this.datas.recent_topics)
+            // console.table(_this.datas.recent_topics)
 
             // 获取用户名，用于传到 sidebar 中获取用户信息
             _this.bus.$emit('userName', loginname);

@@ -6,7 +6,7 @@
     <div>
       <cn-user-basic-info :userinfo='userinfo'></cn-user-basic-info>
       <div class="topic" v-show="userinfo != null && userinfo.loginname == 'wkstudy'">
-        <span>发布话题</span>
+        <span @click='pageToPublish()'>发布话题</span>
       </div>
       <cn-other-topics 
         :otherTopics='userinfo.recent_topics'
@@ -69,6 +69,9 @@ export default {
         .catch(function (error) {
           console.log(error);
         })
+    },
+    pageToPublish () {
+      this.$router.push({path: '/publish'});
     }
   }
 }
