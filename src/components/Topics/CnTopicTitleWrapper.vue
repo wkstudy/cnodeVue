@@ -123,6 +123,7 @@ export default {
 <style lang='stylus'scoped>
 ul
   padding-left 0
+  margin-bottom 0
 li
   position relative
   padding 1rem
