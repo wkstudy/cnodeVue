@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <cn-topic-title-wrapper :titleList='title' :category='category'></cn-topic-title-wrapper>
-    <cn-page :totalpage='tp'></cn-page>
-  </div>
+<div>
+  <cn-topic-title-wrapper :titleList='title' :category='category'></cn-topic-title-wrapper>
+  <cn-page :totalpage='tp'></cn-page>
+</div>
 </template>
 <script>
 import CnTopicTitleWrapper from './CnTopicTitleWrapper.vue';

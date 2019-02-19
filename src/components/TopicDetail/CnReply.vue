@@ -20,13 +20,13 @@
               :class="[reply.ups.length == 0 ? 'zero':'',reply.is_uped ? 'dianzan-y' : '']"
               @click='uped(reply.id,index)'
             >{{reply.ups.length}}</span>
-            <span class="iconfont icon-icon_reply" @click='handleReply()'></span>
+            <span class="iconfont icon-icon_reply" @click='handleReply(index)'></span>
           </section>
         </div>
         <div class="reply-cnt" v-html='reply.content'></div>
         <transition name='reply'>
           <cn-add-reply 
-            v-show='show' 
+            v-show='showArr[index]' 
             :name=" '@' + reply.author.loginname" 
             :replyid='reply.reply_id'
           ></cn-add-reply>
@@ -51,11 +51,8 @@ export default {
   data () {
     return {
       nowTime: new Date(),
-      show: false
+      showArr: new Array()
     }
-  },
-  mounted () {
-    console.log(this.detail)
   },
   methods: {
     dValue (old, now) {
@@ -117,8 +114,14 @@ export default {
           })
       }
     },
-    handleReply () {
-        this.show = !this.show;
+    handleReply (index) {
+      var _this = this;
+      if (_this.showArr[index]) {
+        _this.$set(_this.showArr, index, false)
+      } else {
+        // 第一次使用，还是 undefined 或者值为false的时候
+        _this.$set(_this.showArr, index, true)
+      }  
     }
   }
 }
@@ -168,5 +171,5 @@ li:hover .zero
   opacity 0
 .reply-enter-active,
 .reply-leave-active
-  transition all 1s
+  transition all .3s
 </style>

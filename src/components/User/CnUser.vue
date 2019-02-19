@@ -44,8 +44,8 @@ export default {
   created () {
     var _this = this,
         name = _this.$route.query.loginname;
-    _this.getUserDetail(name);
 
+    _this.getUserDetail(name);
     _this.getCollectTopics(name);
   },
   methods: {
@@ -56,9 +56,6 @@ export default {
         .then(function (response) {
           if (response.data.success) {
             _this.datas = response.data.data;
-            
-            // 获取用户名，用于传到 sidebar 中获取用户信息
-            _this.bus.$emit('userName', response.data.data.loginname);
           }
         })
         .catch(function (error) {

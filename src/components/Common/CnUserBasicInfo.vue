@@ -13,20 +13,40 @@
   </div>
 </template>
 <script>
+import CookieUtil from '../../assets/js/cookie.js';
 export default {
   name: 'CnUserBasicInfo',
   props: {
     userinfo: {
-      type: Object
+      type: Object,
+      required: true
     }
   },
-  computed: {
-    title () {
-      if (this.userinfo.loginname == 'wkstudy') {
-        return '个人信息'
-      } else {
-        return '作者信息'
+  data () {
+    return {
+      title: ''
+    }
+  },
+  watch: {
+    userinfo () {
+      var selfName = '';
+      if (CookieUtil.get('loginname')) {
+        selfName = CookieUtil.get('loginname');
       }
+      if (selfName) {
+
+        // 登录后
+        if (this.userinfo.loginname == selfName) {
+          this.title = '个人信息';
+        } else {
+          this.title = '作者信息';
+        }
+      } else {
+
+        // 未登录
+        this.title = '个人信息';
+      }
+      
     }
   },
   methods: {

@@ -60,9 +60,10 @@ export default {
       } else {
 
         // 如果要退出，则清除cookie
-        // CookieUtil.unset("loginname", '/', '192.168.0.127');
-        CookieUtil.unset("loginname", '/', 'localhost');
-        CookieUtil.unset("accesstoken", '/', 'localhost');
+        CookieUtil.unset("loginname", '/', '192.168.0.127');
+        CookieUtil.unset("accesstoken", '/', '192.168.0.127');
+        // CookieUtil.unset("loginname", '/', 'localhost');
+        // CookieUtil.unset("accesstoken", '/', 'localhost');
 
         _this.status = !_this.status;
 

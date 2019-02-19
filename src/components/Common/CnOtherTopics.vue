@@ -2,7 +2,7 @@
   <div id="other-topics">
     <h2>作者其他话题</h2>
     <ul>
-      <li v-for='tp in otherTopics'>
+      <li v-for='tp in otherTopics' @click='pageToTopic(tp.id)'>
         {{tp.title}}
       </li>
     </ul>
@@ -14,6 +14,15 @@ export default {
   props: {
     otherTopics: {
       type: Array
+    }
+  },
+  methods: {
+    pageToTopic (t_id) {
+      this.$router.push({
+        query: {
+          id: t_id
+        }
+      })
     }
   }
 }

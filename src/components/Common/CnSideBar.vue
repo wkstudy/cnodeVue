@@ -5,14 +5,28 @@
     </div> -->
     <div>
       <cn-user-basic-info :userinfo='userinfo'></cn-user-basic-info>
-      <div class="topic" v-show="userinfo != null && userinfo.loginname == 'wkstudy'">
+      <div class="topic" v-if="userinfo != null && userinfo.loginname == selfName">
         <span @click='pageToPublish()'>发布话题</span>
       </div>
       <cn-other-topics 
         :otherTopics='userinfo.recent_topics'
-        v-show="userinfo != null && userinfo.loginname != 'wkstudy'"
+        v-if="userinfo != null && userinfo.loginname != selfName"
       ></cn-other-topics>
     </div>
+    <ul class="community">
+      <li>
+        <img src="../../assets/imgs/ruby-china.png" alt="community">
+      </li>
+      <li>
+        <img src="../../assets/imgs/golangtc-logo.png" alt="community">
+      </li>
+      <li>
+        <img src="../../assets/imgs/phphub-logo.png" alt="community">
+      </li>
+      <li>
+        <img src="../../assets/imgs/testhome.jpg" alt="community">
+      </li>
+    </ul>
     <div class="qr-code">
       <h2>客户端二维码</h2>
       <div>
@@ -31,7 +45,8 @@ export default {
   name: 'CnSideBar',
   data () {
     return {
-      userinfo: null
+      userinfo: null,
+      selfName: ''
     }
   }, 
   components: {
@@ -41,17 +56,20 @@ export default {
   created () {
     var _this = this,
         path = _this.$route.path;
-     
       if (path == '/') {
 
         // 首页
         if (CookieUtil.get("loginname")) { 
+          _this.selfName = CookieUtil.get("loginname");
           _this.getUser('/' + CookieUtil.get('loginname'));
         }
+      } else if (path == '/user') {
+        //  用户详情页
+        _this.getUser('/' + _this.$route.query.loginname)
       } else {
-
         // 具体话题页 
         _this.bus.$on('userName', function (name) {
+          console.log(name)
           _this.getUser('/' + name);
         });
       }
@@ -95,6 +113,15 @@ export default {
   cursor pointer
   letter-spacing 2px
   line-height 2.4rem
+.community img
+  width 15rem
+  cursor pointer
+.community
+  padding-left 1rem
+.community li
+  padding-left 2rem
+  text-align left
+.community, 
 .qr-code
   background-color #fff
   margin-top 1rem

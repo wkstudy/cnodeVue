@@ -9,7 +9,7 @@
           >{{label}}</span>
           <span class="title">{{detail.title}}</span>
         </div>
-        <ul>
+        <ul v-if='detail.author.loginname'>
           <li>
             发布于<span>{{cancelTime(detail.create_at)}}</span>
           </li>
